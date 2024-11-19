@@ -6,43 +6,55 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 20:58:52 by tsomacha          #+#    #+#             */
-/*   Updated: 2024/11/18 15:57:01 by tsomacha         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:07:22 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *str, ...)
+static int ft_formatconversion(char flag, va_list args)
 {
-	int	count;
+	int length;
+
+	length = 0;
+	if(flag == 'c')
+		length += ft_printchar(va_arg(args, int));
+	else if(flag == 's')
+		length += ft_printstr(va_arg(args, char *));
+	else if(flag == 'p')
+		length += ft_printpointer(va_arg(args, long), 16 , 0);
+	else if(flag == 'd' || flag == 'i' || flag == 'u')
+		length += ft_printnbr_base(va_arg(args, long), 10 , 0);
+	else if(flag == 'x')
+		length += ft_printnbr_base(va_arg(args, long), 16, 0);
+	else if(flag == 'X')
+		length += ft_printnbr_base(va_arg(args, long), 16, 1);
+	return (length);
+}
+
+int	ft_printf(const char *format, ...)
+{
+	int		printed;
+	int 	count;
 	va_list	args;
 
-	va_start(args, str);
+	va_start(args, format);
+	printed = 0;
 	count = 0;
-	while(str[count])
+	while (format[count])
 	{
-		if(str[count] == '%')
+		if(format[count] == '%' && format[count + 1] != '\0')
 		{
 			count++;
-			if(str[count] == 'c')
-			{
-				ft_printchar(va_arg(args, int));
-			}
-			else if(str[count] == 's')
-			{
-				ft_printstr(va_arg(args, char *));
-			}
-			else if(str[count] == 'X')
-			{
-				ft_printnbr_base((va_arg(args, int)),16);
-			}
+			printed += ft_formatconversion(format[count], args);
 		}
-		else
+		else if (format[count] != '\0')
 		{
-			ft_printchar(str[count]);
+			ft_printchar(format[count]);
+			printed++;
 		}
 		count++;
 	}
 	va_end(args);
-	return (1);
+	return (printed);
 }

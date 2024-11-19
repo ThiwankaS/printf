@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printstr.c                                      :+:      :+:    :+:   */
+/*   ft_helper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 08:56:13 by tsomacha          #+#    #+#             */
-/*   Updated: 2024/11/14 09:21:25 by tsomacha         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:58:39 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "ft_printf.h"
 
 int	ft_printchar(int c)
 {
-	write(1,&c,1);
-	return (0);
+	write(1, &c, 1);
+	return (1);
 }
-int	ft_printstr(char *s)
+
+int	ft_printstr(char *str)
 {
-	int	count;
-
-	count = 0;
-	while(s[count])
+	if(!str)
 	{
-		write(1,&s[count],1);
-		count++;
+		write(1,"(null)", 6);
+		return (6);
 	}
-	return(0);
+	int len = ft_strlen(str);
+	write(1, str, len);
+	return (len);
 }
 
-int	ft_printdigit(int c)
+int	ft_printdigit(int c, int set_case)
 {
 	if(c >=0 && c <= 9)
 	{
@@ -38,7 +39,27 @@ int	ft_printdigit(int c)
 	}
 	else if(c >= 10 && c <= 15)
 	{
-		ft_printchar(c + 55);
+		if(set_case)
+			ft_printchar(c + 55);
+		else
+			ft_printchar(c + 87);
 	}
-	return (0);
+	return (1);
+}
+
+int	ft_printpointer(long nbr, int base, int set_case)
+{
+	int length;
+
+	length = 0;
+	if(nbr == 0)
+	{
+		length += ft_printstr("(nil)");
+	}
+	else
+	{
+		length += ft_printstr("0x");
+		length += ft_printnbr_base(nbr, base, set_case);
+	}
+	return (length);
 }
