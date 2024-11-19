@@ -17,7 +17,6 @@ int	ft_printchar(int c)
 	write(1,&c,1);
 	return (0);
 }
-
 int	ft_printstr(char *s)
 {
 	int	count;
@@ -29,4 +28,17 @@ int	ft_printstr(char *s)
 		count++;
 	}
 	return(0);
+}
+
+int	ft_printdigit(int c)
+{
+	if(c >=0 && c <= 9)
+	{
+		ft_printchar(c + 48);
+	}
+	else if(c >= 10 && c <= 15)
+	{
+		ft_printchar(c + 55);
+	}
+	return (0);
 }

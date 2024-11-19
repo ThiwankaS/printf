@@ -16,8 +16,15 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <limits.h>
+#include <stdlib.h>
 
-int	ft_printstr(char *s);
 int	ft_printchar(int c);
+int	ft_printstr(char *s);
+int	ft_printdigit(int c);
+
+int	ft_printnbr_base(int nbr, int base);
+
+int	ft_printf(const char *str, ...);
 
 #endif

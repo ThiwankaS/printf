@@ -32,9 +32,9 @@ int	ft_printf(const char *str, ...)
 			{
 				ft_printstr(va_arg(args, char *));
 			}
-			else if(str[count] == 'p')
+			else if(str[count] == 'X')
 			{
-				ft_printstr
+				ft_printnbr_base((va_arg(args, int)),16);
 			}
 		}
 		else

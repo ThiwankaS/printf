@@ -1,27 +1,26 @@
-NAME = libftprintf.a
-
-CFILES = ft_helper.c
-
-OFILES = $(CFILES:.c=.o)
-
-INCLUDE = include
+NAME = test
 
 CMD = cc
 
-FLAGS = -Werror -Wextra -Wall -I ${INCLUDE}
+CFLAGS = -Wall -Wextra -Werror
 
-$(NAME) :
-	${CMD} -c ${FLAGS} ${CFILES}
-	ar rcs ${NAME} ${OFILES}
+INCLUDE = libft
 
-all : $(NAME)
+SRCS = ft_printf.c\
+		ft_putnbr_base.c\
+		ft_helper.c\
+		test.c
 
-clean :
-	rm -rf *.o
+LIBFT_DIR = ./libft
 
-fclean :
-	rm -rf *.o ${NAME}
+LIBFT = $(LIBFT_DIR)/libft.a
 
-re:fclean all
+all: test
 
-.PHONY: all clean fclean re
+test:
+	$(CMD) $(CFLAGS) -I$(INCLUDE) $(SRCS) -L $(LIBFT_DIR) -lft -o $(NAME)
+
+clean:
+	rm -rf test
+
+re: clean all
