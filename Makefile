@@ -5,33 +5,27 @@ CMD = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = ft_printf.c \
-       ft_helper.c \
-       ft_putnbr_base.c
+	ft_helper.c \
+	ft_putnbr_base.c\
+	ft_pointer.c
 
 OBJS = $(SRCS:.c=.o)
 
-LIBFT_DIR = ./libft
-
-LIBFT = $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@cp $(LIBFT) $(NAME)              # Copy libft.a to libftprintf.a
-	@ar rcs $(NAME) $(OBJS)           # Add project object files
+	ar rcs $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CMD) $(CFLAGS) -c $< -o $@      # Compile .c files into .o
+	$(CMD) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(OBJS)                    # Remove project object files
+	rm -f $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME)                    # Remove libftprintf.a
+	rm -f $(NAME)
 
 re: fclean all
 
-test: all
-	$(CMD) test.c libftprintf.a $(LIBFT) -o test
-
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re

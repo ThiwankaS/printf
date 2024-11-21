@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 20:58:52 by tsomacha          #+#    #+#             */
-/*   Updated: 2024/11/19 15:07:22 by tsomacha         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:06:24 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,61 @@
 
 static int	ft_formatconversion(char flag, va_list args)
 {
-	int	length;
-
-	length = 0;
 	if (flag == 'c')
-		length += ft_printchar(va_arg(args, int));
+		return (ft_printchar(va_arg(args, int)));
 	else if (flag == 's')
-		length += ft_printstr(va_arg(args, char *));
+		return (ft_printstr(va_arg(args, char *)));
 	else if (flag == 'p')
-		length += ft_printpointer(va_arg(args, long long));
+		return (ft_printpointer(va_arg(args, long long)));
 	else if (flag == 'i' || flag == 'd')
-		length += ft_printnbr_base(va_arg(args, int), 10, 0);
+		return (ft_printnbr_base(va_arg(args, int), 10, 0));
 	else if (flag == 'u')
-		length += ft_printnbr_base(va_arg(args, unsigned), 10, 0);
+		return (ft_printnbr_base(va_arg(args, unsigned), 10, 0));
 	else if (flag == 'x')
-		length += ft_printnbr_base(va_arg(args, unsigned), 16, 0);
+		return (ft_printnbr_base(va_arg(args, unsigned), 16, 0));
 	else if (flag == 'X')
-		length += ft_printnbr_base(va_arg(args, unsigned), 16, 1);
+		return (ft_printnbr_base(va_arg(args, unsigned), 16, 1));
 	else if (flag == '%')
-		length += ft_printchar('%');
-	return (length);
+		return (ft_printchar('%'));
+	return (-1);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	int		printed;
-	int 	count;
+	int		count;
+	int		res;
 	va_list	args;
 
 	va_start(args, format);
 	printed = 0;
 	count = 0;
-	while (format[count])
+	while (format[count] && res != -1)
 	{
-		if(format[count] == '%' && format[count + 1] != '\0')
+		res = 0;
+		if (format[count] == '%' && format[count + 1] != '\0')
 		{
-			count++;
-			printed += ft_formatconversion(format[count], args);
+			res = ft_formatconversion(format[++count], args);
+			if(res < 0)
+				break ;
+			printed += res;
 		}
-		else if (format[count] != '\0')
+		else if (format[count] == '%' && format[count + 1] == '\0')
 		{
-			ft_printchar(format[count]);
-			printed++;
+			res = -1;
+			break ;
+		}
+		else
+		{
+			res = ft_printchar(format[count]);
+			if(res < 0)
+				break ;
+			printed += res;
 		}
 		count++;
 	}
 	va_end(args);
+	if(res < 0)
+		printed = res;
 	return (printed);
 }

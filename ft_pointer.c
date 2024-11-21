@@ -1,36 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
+/*   ft_pointer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 09:32:01 by tsomacha          #+#    #+#             */
-/*   Updated: 2024/11/21 13:22:57 by tsomacha         ###   ########.fr       */
+/*   Created: 2024/11/21 13:14:14 by tsomacha          #+#    #+#             */
+/*   Updated: 2024/11/21 13:18:54 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printnbr_base(long nbr, int base, int set_case)
+int	ft_pointer(unsigned long nbr)
 {
-	int	len; 
+	int	length;
 
-	len = 0;
-	if (nbr < 0)
+	length = 0;
+	if (nbr < 16)
+		length += ft_printdigit(nbr, 0);
+	else
 	{
-		len += ft_printchar('-');
-		len += ft_printnbr_base((0 - nbr), base, set_case);
-		return (len);
+		length += ft_pointer((nbr / 16));
+		length += ft_printdigit((nbr % 16), 0);
 	}
-	if (nbr < base)
+	return (length);
+}
+
+int	ft_printpointer(unsigned long nbr)
+{
+	int	length;
+
+	length = 0;
+	if (nbr == 0)
 	{
-		len += ft_printdigit(nbr, set_case);
+		length += ft_printstr("(nil)");
 	}
 	else
 	{
-		len += ft_printnbr_base((nbr / base), base, set_case);
-		len += ft_printdigit((nbr % base), set_case);
+		length += ft_printstr("0x");
+		length += ft_pointer(nbr);
 	}
-	return (len);
+	return (length);
 }
