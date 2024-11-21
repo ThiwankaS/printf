@@ -12,23 +12,27 @@
 
 #include "ft_printf.h"
 
-static int ft_formatconversion(char flag, va_list args)
+static int	ft_formatconversion(char flag, va_list args)
 {
-	int length;
+	int	length;
 
 	length = 0;
-	if(flag == 'c')
+	if (flag == 'c')
 		length += ft_printchar(va_arg(args, int));
-	else if(flag == 's')
+	else if (flag == 's')
 		length += ft_printstr(va_arg(args, char *));
-	else if(flag == 'p')
-		length += ft_printpointer(va_arg(args, long), 16 , 0);
-	else if(flag == 'd' || flag == 'i' || flag == 'u')
-		length += ft_printnbr_base(va_arg(args, long), 10 , 0);
-	else if(flag == 'x')
-		length += ft_printnbr_base(va_arg(args, long), 16, 0);
-	else if(flag == 'X')
-		length += ft_printnbr_base(va_arg(args, long), 16, 1);
+	else if (flag == 'p')
+		length += ft_printpointer(va_arg(args, long long));
+	else if (flag == 'i' || flag == 'd')
+		length += ft_printnbr_base(va_arg(args, int), 10, 0);
+	else if (flag == 'u')
+		length += ft_printnbr_base(va_arg(args, unsigned), 10, 0);
+	else if (flag == 'x')
+		length += ft_printnbr_base(va_arg(args, unsigned), 16, 0);
+	else if (flag == 'X')
+		length += ft_printnbr_base(va_arg(args, unsigned), 16, 1);
+	else if (flag == '%')
+		length += ft_printchar('%');
 	return (length);
 }
 

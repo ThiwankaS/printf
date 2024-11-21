@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft/libft.h"
 #include "ft_printf.h"
 
 int	ft_printchar(int c)
@@ -33,7 +33,7 @@ int	ft_printstr(char *str)
 
 int	ft_printdigit(int c, int set_case)
 {
-	if(c >=0 && c <= 9)
+	if(c < 10)
 	{
 		ft_printchar(c + 48);
 	}
@@ -47,7 +47,22 @@ int	ft_printdigit(int c, int set_case)
 	return (1);
 }
 
-int	ft_printpointer(long nbr, int base, int set_case)
+int	ft_pointer(unsigned long nbr)
+{
+	int length;
+
+	length = 0;
+	if(nbr < 16)
+		length += ft_printdigit(nbr, 0);
+	else
+	{
+		length += ft_pointer((nbr / 16));
+		length += ft_printdigit((nbr % 16), 0);
+	}
+	return (length);
+}
+
+int	ft_printpointer(unsigned long nbr)
 {
 	int length;
 
@@ -59,7 +74,7 @@ int	ft_printpointer(long nbr, int base, int set_case)
 	else
 	{
 		length += ft_printstr("0x");
-		length += ft_printnbr_base(nbr, base, set_case);
+		length += ft_pointer(nbr);
 	}
 	return (length);
 }

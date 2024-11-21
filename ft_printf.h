@@ -24,6 +24,6 @@ int	ft_printf(const char *format, ...);
 int	ft_printstr(char *str);
 int	ft_printdigit(int c, int set_case);
 int	ft_printnbr_base(long nbr, int base, int set_case);
-int	ft_printpointer(long nbr, int base, int set_case);
+int	ft_printpointer(unsigned long nbr);
 
 #endif
