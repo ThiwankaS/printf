@@ -67,8 +67,9 @@ int main() {
 	test_cases("long long min uisng flag u", "%u", LLONG_MIN);
 	test_cases("Inappropriate flag usage", "%");
 	test_cases("Invalid flag usage", "%k");
+	test_cases("Two percentage characters", "%%%");
     test_cases("More percentage characters", "%%%");
-    test_cases("More percentage characters and space", "%% %");
+    test_cases("More percentage characters and space", "% %");
     test_cases("UNITMAX uisng flag d", "%d", UINT_MAX);
     test_cases("Lot of zeros", "%d %i %u %p %x %X %c %s", 0,0,0,0,0,0,0,0);
 
